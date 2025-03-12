@@ -6,7 +6,7 @@ const client = new OpenAI(
     apiKey : "sk-no-key-required"
 })
 
-const question="講一個笑話";
+const question="你好厲害，我怕失業。";
 const stream =  await client.chat.completions.create({
   model,
   temparature:0.1,

@@ -25,74 +25,74 @@ const client = new OpenAI(
       },
     },
   ];
+const fruitPrices= {
+    "apple": "$6",
+    "banana": "$4",
+    "蘋果": "6",
+    "香蕉": "4",
+    //"mango":"$10",
+    "芒果": "10",
+    	"榴槤": "50",
+    	"櫻桃":"20"
+    //	"durian": "$50"
+};
 
+const get_fruit_price=({name})=>{
+	console.log('>>getting price of',name);
+	return name+"的價格是："+fruitPrices[name]||1;
+}
+const functions={get_fruit_price};
 //const question="預測中美貿易戰的結局。";
-const question="蘋果 比 香蕉貴多少？";
-const response =  await client.chat.completions.create({
-  model,
-  temparature:0.1,
-  //stream:true,
-  tools,
-  messages:[
+const question="買10個蘋果的錢，可以買到幾條香蕉？";
+const messages=[
     {
       "role": "user",
       "content": question
     }
   ]
+const response =  await client.chat.completions.create({
+  model,
+  temparature:0.1,
+  //stream:true,
+  tools,
+  messages
 })
 
-const respmessage= response.choices[0].message.content.split(/\r?\n/);
-
-const toolcalls=[];
-let pushing=true, pushed=[];
-for (let i=0;i<respmessage.length;i++){
-	
-	if (respmessage[i]=="<tool_call>") {
-		pushing=true;
-	} else if (respmessage[i]=="</tool_call>") {
-		pushing=false;
-		toolcalls.push(...pushed);
-		pushed.length=0;
-	} else if (pushing) pushed.push(JSON.parse(respmessage[i]));
-};
-console.log(toolcalls);
-
-
-
 console.log("USER:",question);
-let tokencount=0;
-let d=new Date();
-console.log("AI:");
 
- /*
-let res='';    
-for await (const chunk of stream) {
-  const content = chunk.choices[0]?.delta?.content || '';
-  //process.stdout.write(content);
-  res+=content;
-  tokencount++;
+ 
+if (response.choices[0].message.tool_calls){
+	const calls=response.choices[0].message.tool_calls;
+	for (let i=0;i<calls.length;i++) {
+		const name=calls[i].function.name;
+		const args=JSON.parse(calls[i].function["arguments"]);
+		const content=functions[name].call(this, args);
+		messages.push({role:"user", content});
+	}
+	
+	const stream =  await client.chat.completions.create({
+	  model,
+	  temparature:0.1,
+	  stream:true,
+	  messages
+	})
+		  
+			  
+	let tokencount=0;
+	let d=new Date();
+	console.log("AI:");
+
+	for await (const chunk of stream) {
+	  const content = chunk.choices[0]?.delta?.content || '';
+	  process.stdout.write(content);
+	  tokencount++;
+	}
+
+
+	const elapsed=(new Date()-d)/1000;
+	console.log("token/s:", (tokencount/elapsed).toFixed(2));
+	  
+} else {
+	console.log("AI:",response.choices[0].message);
 }
 
-console.log(res);
-*/
-/*
-const functionResponses = await Promise.all(
-  toolCalls.map(async (toolCall) => {
-    const functionName = toolCall.function.name;
-    const functionArgs = JSON.parse(toolCall.function.arguments);
-    const functionToCall = availableFunctions[functionName];
-    const functionResponse = functionToCall(
-      functionArgs.location,
-      functionArgs.unit
-    );
-    return {
-      tool_call_id: toolCall.id,
-      role: "tool",
-      name: functionName,
-      content: functionResponse,
-    };
-  })
-);
-*/
-//const elapsed=(new Date()-d)/1000;
-//console.log("token/s:", (tokencount/elapsed).toFixed(2));
