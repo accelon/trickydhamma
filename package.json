@@ -2,8 +2,13 @@
   "dependencies": {
     "@llamaindex/openai": "^0.1.59",
     "gpt-tokenizer": "^2.9.0",
+    "http-proxy-agent": "^7.0.2",
+    "js-tiktoken": "^1.0.19",
+    "llama-cli": "^1.0.0",
     "llamaindex": "^0.9.9",
-    "node-llama-cpp": "^3.6.0"
+    "node-llama-cpp": "^3.6.0",
+    "ollama": "^0.5.14",
+    "openai": "^4.87.3"
   },
   "type": "module",
   "name": "trickydhamma",
