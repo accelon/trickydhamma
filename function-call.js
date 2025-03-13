@@ -28,22 +28,24 @@ const client = new OpenAI(
 const fruitPrices= {
     "apple": "$6",
     "banana": "$4",
-    "蘋果": "6",
-    "香蕉": "4",
-    //"mango":"$10",
-    "芒果": "10",
-    	"榴槤": "50",
-    	"櫻桃":"20"
-    //	"durian": "$50"
+    "蘋果": "$6",
+    "香蕉": "$4",
+    "mango":"$10",
+    "芒果": "$10",
+    	"榴槤": "$50",
+    	"櫻桃":"$20",
+    	"durian": "$50"
 };
 
 const get_fruit_price=({name})=>{
-	console.log('>>getting price of',name);
-	return name+"的價格是："+fruitPrices[name]||1;
+	const price=fruitPrices[name]||1;;
+	console.log('>>getting price of',name,"=",price);
+	return name+"的價格是："+price
+	return price;
 }
 const functions={get_fruit_price};
 //const question="預測中美貿易戰的結局。";
-const question="買10個蘋果的錢，可以買到幾條香蕉？";
+const question="買三個芒果的錢，可以買多少條香蕉？";
 const messages=[
     {
       "role": "user",
@@ -60,14 +62,17 @@ const response =  await client.chat.completions.create({
 
 console.log("USER:",question);
 
- 
+//console.log(response.choices[0].message);
 if (response.choices[0].message.tool_calls){
 	const calls=response.choices[0].message.tool_calls;
 	for (let i=0;i<calls.length;i++) {
 		const name=calls[i].function.name;
 		const args=JSON.parse(calls[i].function["arguments"]);
 		const content=functions[name].call(this, args);
-		messages.push({role:"user", content});
+		//const funcres={role:"tool", tool_call_id: calls[i].id, name, content}
+		const funcres={role:"user",content};
+		//console.log(funcres);
+		messages.push(funcres);
 	}
 	
 	const stream =  await client.chat.completions.create({
