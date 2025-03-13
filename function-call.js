@@ -5,7 +5,7 @@ const client = new OpenAI(
     {baseURL:"http://127.0.0.1:11435/v1/",  //llama-server.cmd
     apiKey : "sk-no-key-required"
 })
-	
+
 	const tools = [
     {
       type: "function",
@@ -29,6 +29,7 @@ const fruitPrices= {
     "apple": "$6",
     "banana": "$4",
     "蘋果": "$6",
+    	"苹果": "$6",
     "香蕉": "$4",
     "mango":"$10",
     "芒果": "$10",
@@ -45,7 +46,8 @@ const get_fruit_price=({name})=>{
 }
 const functions={get_fruit_price};
 //const question="預測中美貿易戰的結局。";
-const question="買三個芒果的錢，可以買多少條香蕉？";
+//const question="我買了一袋5顆水果，總共花了38元，請問有分別有幾顆蘋果和芒果";
+const question="買四顆蘋果的花費，可以買到幾顆芒果？";
 const messages=[
     {
       "role": "user",

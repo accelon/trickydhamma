@@ -1,4 +1,4 @@
 rem D:\ai\llama\llama-server.exe --jinja --gpu-layers 49 -m "C:\Users\xiaomi\.lmstudio\models\qwen\Qwen2.5-14B-Instruct-Q4_K\Qwen2.5-14B-Instruct-Q4_K.gguf" --port 11435
-D:\ai\llama\llama-server.exe --jinja --gpu-layers 29 -m "C:\Users\xiaomi\.lmstudio\models\qwen\Qwen2.5-7B-Instruct-Q5_K_S\Qwen2.5-7B-Instruct-Q5_K_S.gguf" --port 11435
-rem D:\ai\llama\llama-server.exe --jinja --gpu-layers 37  -m "C:\Users\xiaomi\.lmstudio\models\qwen\Qwen2.5-3B-Instruct-Q6_K\qwen2.5-3b-instruct-q6_k.gguf" --port 11435
+rem D:\ai\llama\llama-server.exe --jinja --gpu-layers 29 -m "C:\Users\xiaomi\.lmstudio\models\qwen\Qwen2.5-7B-Instruct-Q5_K_S\Qwen2.5-7B-Instruct-Q5_K_S.gguf" --port 11435
+D:\ai\llama\llama-server.exe --jinja --gpu-layers 37  -m "C:\Users\xiaomi\.lmstudio\models\qwen\Qwen2.5-3B-Instruct-Q6_K\qwen2.5-3b-instruct-q6_k.gguf" --port 11435
 rem D:\ai\llama\llama-server.exe --jinja --gpu-layers 48  -m "C:\Users\xiaomi\.lmstudio\models\qwen\Qwen2.5-1.5B-Instruct-Q6_K\Qwen2.5-1.5B-Instruct-Q6_K.gguf" --port 11435
